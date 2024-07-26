@@ -56,6 +56,8 @@ function equals() {
 function getOperator() {
   operator.forEach((element) => 
     element.addEventListener('click', (el) => {
+      if (expression === '') return;
+      if (operatorArr.some(op => expression.includes(`${op}`))) return;
       operator = el.target.textContent;
       expression += ' ' + el.target.textContent + ' ';
       wholeOp.textContent = expression
