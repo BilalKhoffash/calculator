@@ -6,6 +6,7 @@ const clearBtn = document.querySelector('.clear');
 const deleteBtn = document.querySelector('.delete')
 let operator = document.querySelectorAll('.operation');
 let expression = '';
+let test1 = ''; 
 const operatorArr = ['+', '-', '/', '*'];
 clearBtn.addEventListener('click', clear);
 
@@ -13,20 +14,20 @@ function getNumbers() {
   deleteN()
   buttons.forEach((element) => 
     element.addEventListener('click', (el) => {
-      console.log(expression)
-      console.log(currentOp.textContent)
-      console.log(wholeOp.textContent)
-      console.log(typeof expression)
-      const lastChar = expression.slice(-2);
-      if (isNaN(parseInt(lastChar))) {
+      const lastChar = String(expression).slice(-2, -1);
+      if (operatorArr.includes(lastChar)) {
         currentOp.textContent = '';
-      } else if (lastChar === ' =') {
-          wholeOp.textContent = el.target.textContent
+        currentOp.textContent += el.target.textContent;
+        expression += el.target.textContent;
+        wholeOp.textContent += el.target.textContent
+      } else if (wholeOp.textContent.slice(-2, -1) == '=') {
+        currentOp.textContent += el.target.textContent;
+        expression += el.target.textContent;
+      } else {
+        currentOp.textContent += el.target.textContent;
+        expression += el.target.textContent;
+        wholeOp.textContent += el.target.textContent
       }
-
-      currentOp.textContent += el.target.textContent;
-      expression += el.target.textContent;
-      wholeOp.textContent += el.target.textContent
     })
   )
 }
@@ -36,10 +37,6 @@ function equals() {
     let [firstNum, operator, secondNum] = expression.split(" ")
     firstNum = parseFloat(firstNum); 
     secondNum = parseFloat(secondNum); 
-    console.log(firstNum)
-    console.log(secondNum)
-    console.log(operator)
-    console.log(expression)
     if (expression.split(" ").length < 3 || isNaN(secondNum)) {
       return;
     }
@@ -48,9 +45,10 @@ function equals() {
       clear();
     } else {
       let result = operate(firstNum, operator, secondNum);
+      result = Math.round(result * 1000) / 1000;
       currentOp.textContent =  result; 
       expression = result;
-      wholeOp.textContent += ' =';
+      wholeOp.textContent += ' = ';
     }
   })
 }
@@ -73,10 +71,9 @@ function clear() {
 
 function deleteN() {
   deleteBtn.addEventListener('click', () => {
-    if (wholeOp.textContent.charAt(wholeOp.textContent.length -1 ) === '=') {
+    if (wholeOp.textContent.charAt(wholeOp.textContent.length - 2 ) === '=') {
       currentOp.textContent = currentOp.textContent.slice(0, -1);
       expression = currentOp.textContent;
-      console.log(expression)
     } else {
       currentOp.textContent = currentOp.textContent.slice(0, -1);
       expression = expression.slice(0, -1);
@@ -123,3 +120,4 @@ function divideNumbers(a, b) {
 getNumbers();
 equals();
 getOperator();
+clear();
