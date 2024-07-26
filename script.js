@@ -1,18 +1,27 @@
-// const operation = '8 + 9'; // This is just an example
-// let [firstNum, operator, secondNum] = operation.split(" ");
 const buttons = document.querySelectorAll('.number');
 let wholeOp = document.querySelector('.whole-operation');
 const currentOp = document.querySelector('.current-operation');
 const equalBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
+const deleteBtn = document.querySelector('.delete')
 let operator = document.querySelectorAll('.operation');
 let expression = '';
 
 function getNumbers() {
+  deleteN()
   buttons.forEach((element) => 
     element.addEventListener('click', (el) => {
+      const lastChar = expression.slice(-1);
+      if (isNaN(parseInt(lastChar))) {
+        currentOp.textContent = '';
+      } else if (lastChar === ' =')
+      {
+        wholeOp.textContent = el.target.textContent
+      }
+
       currentOp.textContent += el.target.textContent;
       expression += el.target.textContent;
+      wholeOp.textContent += el.target.textContent
     })
   )
 }
@@ -25,6 +34,7 @@ function equals() {
     let result = operate(firstNum, operator, secondNum);
     currentOp.textContent =  result; 
     expression = result;
+    wholeOp.textContent += ' ='
   })
 }
 
@@ -33,8 +43,7 @@ function getOperator() {
     element.addEventListener('click', (el) => {
       operator = el.target.textContent;
       expression += ' ' + el.target.textContent + ' ';
-      console.log('test');
-      currentOp.textContent =  ''; 
+      wholeOp.textContent = expression
     })
   )
 }
@@ -43,6 +52,14 @@ function clear() {
   clearBtn.addEventListener('click', () => {
     expression = '';
     currentOp.textContent = '';
+    wholeOp.textContent = '';
+  })
+}
+
+function deleteN() {
+  deleteBtn.addEventListener('click', () => {
+    currentOp.textContent = currentOp.textContent.slice(0, -1);
+    expression = currentOp.textContent;
   })
 }
 
