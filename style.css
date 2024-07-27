@@ -82,4 +82,9 @@ div .operation {
 .current-operation {
     font-size: 30px;
     margin-top: 20px;
+    height: 35px;
+}
+
+.whole-operation {
+    height: 20px;
 }
