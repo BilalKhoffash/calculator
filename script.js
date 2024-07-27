@@ -13,6 +13,11 @@ function getNumbers() {
   deleteN()
   buttons.forEach((element) => 
     element.addEventListener('click', (el) => {
+      if (el.target.textContent === '.' ) {
+        if (currentOp.textContent.includes('.'))  {
+          return 
+        } 
+      }
       const lastChar = String(expression).slice(-2, -1);
       if (operatorArr.includes(lastChar)) {
         currentOp.textContent = '';
